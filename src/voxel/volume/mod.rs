@@ -33,6 +33,16 @@ impl Volume {
         self.voxel_size
     }
 
+    pub fn flood_fill(&mut self) {
+        self.grid.flood_fill();
+    }
+    pub fn is_inside(&self, point: impl Into<Vec3f>) -> bool {
+        let point_vec: Vec3f = point.into();
+        let point_i = (point_vec / self.voxel_size).map(|x| x.round() as isize);
+        let sign = self.grid.sign_at(&point_i);
+        sign == Sign::Negative
+    }
+
     ///
     /// Creates new SDF grid by evaluating given function on each grid point.
     /// Inside is negative.
